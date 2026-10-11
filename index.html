@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#101827">
+<title>Organiza Casa</title>
+<link rel="manifest" href="manifest.json">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand"><div class="brand-icon">⌂</div><div><strong>Organiza Casa</strong><small>Seu financeiro em ordem</small></div></div>
+    <nav>
+      <button class="nav-item active" data-page="dashboard">▦ <span>Visão geral</span></button>
+      <button class="nav-item" data-page="bills">▤ <span>Contas da casa</span></button>
+      <button class="nav-item" data-page="income">＋ <span>Renda e saldo</span></button>
+      <button class="nav-item" data-page="debts">▣ <span>Empréstimos e cartões</span></button>
+      <button class="nav-item" data-page="reports">◔ <span>Relatórios</span></button>
+      <button class="nav-item" data-page="reminders">♧ <span>Lembretes</span></button>
+    </nav>
+    <div class="sidebar-note"><span class="dot"></span> Seus dados ficam neste dispositivo</div>
+  </aside>
+  <main class="main">
+    <header class="topbar">
+      <div><p class="eyebrow" id="todayLabel">SEU PAINEL FINANCEIRO</p><h1 id="pageTitle">Visão geral</h1></div>
+      <div class="top-actions"><button class="icon-button" id="exportBtn" title="Exportar backup">⇩</button><button class="primary" id="quickAdd">＋ Nova conta</button></div>
+    </header>
+    <section id="pageContent"></section>
+    <footer>Organiza Casa <span>•</span> Controle simples, decisões melhores.</footer>
+  </main>
+</div>
+<div class="modal-backdrop hidden" id="modalBackdrop">
+  <div class="modal">
+    <div class="modal-head"><div><p class="eyebrow">NOVO REGISTRO</p><h2 id="modalTitle">Adicionar conta</h2></div><button class="icon-button" id="closeModal">×</button></div>
+    <form id="recordForm">
+      <input type="hidden" id="recordId">
+      <div class="form-grid">
+        <label class="wide">Descrição<input id="description" required placeholder="Ex.: Conta de luz"></label>
+        <label>Categoria<select id="category"><option>Moradia</option><option>Água</option><option>Energia</option><option>Internet</option><option>Mercado</option><option>Transporte</option><option>Saúde</option><option>Educação</option><option>Cartão</option><option>Empréstimo</option><option>Salário</option><option>Extra</option><option>Outros</option></select></label>
+        <label>Valor (R$)<input id="amount" required type="number" min="0.01" step="0.01" placeholder="0,00"></label>
+        <label>Vencimento / data<input id="date" type="date" required></label>
+        <label>Status<select id="status"><option value="pending">Pendente</option><option value="paid">Pago</option></select></label>
+        <label class="wide">Observações<input id="notes" placeholder="Opcional"></label>
+      </div>
+      <div class="modal-actions"><button type="button" class="secondary" id="cancelModal">Cancelar</button><button class="primary" type="submit">Salvar registro</button></div>
+    </form>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="app.js"></script>
+</body>
+</html>
