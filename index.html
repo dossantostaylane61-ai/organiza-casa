@@ -1,54 +1,87 @@
 <!doctype html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#101827">
-<title>Organiza Casa</title>
-<link rel="manifest" href="manifest.json">
-<link rel="stylesheet" href="style.css">
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#456b59">
+  <meta name="description" content="Larino, organização da casa e das finanças em um só lugar.">
+  <title>Larino — sua casa, suas finanças</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="app-shell">
-  <aside class="sidebar">
-    <div class="brand"><div class="brand-icon">⌂</div><div><strong>Organiza Casa</strong><small>Seu financeiro em ordem</small></div></div>
-    <nav>
-      <button class="nav-item active" data-page="dashboard">▦ <span>Visão geral</span></button>
-      <button class="nav-item" data-page="bills">▤ <span>Contas da casa</span></button>
-      <button class="nav-item" data-page="income">＋ <span>Renda e saldo</span></button>
-      <button class="nav-item" data-page="debts">▣ <span>Empréstimos e cartões</span></button>
-      <button class="nav-item" data-page="reports">◔ <span>Relatórios</span></button>
-      <button class="nav-item" data-page="reminders">♧ <span>Lembretes</span></button>
-    </nav>
-    <div class="sidebar-note"><span class="dot"></span> Seus dados ficam neste dispositivo</div>
-  </aside>
-  <main class="main">
-    <header class="topbar">
-      <div><p class="eyebrow" id="todayLabel">SEU PAINEL FINANCEIRO</p><h1 id="pageTitle">Visão geral</h1></div>
-      <div class="top-actions"><button class="icon-button" id="exportBtn" title="Exportar backup">⇩</button><button class="primary" id="quickAdd">＋ Nova conta</button></div>
-    </header>
-    <section id="pageContent"></section>
-    <footer>Organiza Casa <span>•</span> Controle simples, decisões melhores.</footer>
-  </main>
-</div>
-<div class="modal-backdrop hidden" id="modalBackdrop">
-  <div class="modal">
-    <div class="modal-head"><div><p class="eyebrow">NOVO REGISTRO</p><h2 id="modalTitle">Adicionar conta</h2></div><button class="icon-button" id="closeModal">×</button></div>
-    <form id="recordForm">
-      <input type="hidden" id="recordId">
-      <div class="form-grid">
-        <label class="wide">Descrição<input id="description" required placeholder="Ex.: Conta de luz"></label>
-        <label>Categoria<select id="category"><option>Moradia</option><option>Água</option><option>Energia</option><option>Internet</option><option>Mercado</option><option>Transporte</option><option>Saúde</option><option>Educação</option><option>Cartão</option><option>Empréstimo</option><option>Salário</option><option>Extra</option><option>Outros</option></select></label>
-        <label>Valor (R$)<input id="amount" required type="number" min="0.01" step="0.01" placeholder="0,00"></label>
-        <label>Vencimento / data<input id="date" type="date" required></label>
-        <label>Status<select id="status"><option value="pending">Pendente</option><option value="paid">Pago</option></select></label>
-        <label class="wide">Observações<input id="notes" placeholder="Opcional"></label>
+  <section id="authScreen" class="auth-screen">
+    <div class="auth-card">
+      <div class="brand-mark">⌂</div>
+      <p class="eyebrow">BETA PRIVADO</p>
+      <h1>Larino</h1>
+      <p class="auth-subtitle">Tudo no lugar, mais leveza na vida.</p>
+      <div id="setupNotice" class="notice hidden">
+        <strong>Falta conectar o banco seguro.</strong>
+        <span>Antes de usar dados reais, configure seu projeto Firebase seguindo o arquivo LEIA-ME-PRIMEIRO.md. Esta versão não salva dados financeiros enquanto o Firebase não estiver configurado.</span>
       </div>
-      <div class="modal-actions"><button type="button" class="secondary" id="cancelModal">Cancelar</button><button class="primary" type="submit">Salvar registro</button></div>
-    </form>
+      <div id="authMessage" class="auth-message" role="status"></div>
+      <form id="loginForm" class="auth-form">
+        <label>E-mail<input id="authEmail" type="email" autocomplete="username" placeholder="voce@exemplo.com" required></label>
+        <label>Senha<input id="authPassword" type="password" autocomplete="current-password" minlength="6" placeholder="Pelo menos 6 caracteres" required></label>
+        <button id="loginButton" class="primary full" type="submit">Entrar</button>
+        <button id="signupButton" class="secondary full" type="button">Criar minha conta de teste</button>
+        <button id="resetButton" class="link-button full" type="button">Esqueci minha senha</button>
+      </form>
+      <div class="auth-divider"><span>ou</span></div>
+      <button id="googleButton" class="google-button full" type="button"><span class="google-g">G</span> Continuar com Google</button>
+      <p class="privacy-note"><span>🔒</span> Seus registros são privados e vinculados à sua conta. Nunca informe senhas bancárias no Larino.</p>
+    </div>
+    <p class="beta-footer">Larino Beta · acesso individual para testes</p>
+  </section>
+
+  <div id="appShell" class="app-shell hidden">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-icon">⌂</div><div><strong>Larino</strong><small>Tudo no lugar, mais leveza.</small></div></div>
+      <nav id="mainNav">
+        <button class="nav-item active" data-page="dashboard"><span class="nav-icon">▦</span><span>Visão geral</span></button>
+        <button class="nav-item" data-page="bills"><span class="nav-icon">▤</span><span>Contas da casa</span></button>
+        <button class="nav-item" data-page="income"><span class="nav-icon">↗</span><span>Renda e saldo</span></button>
+        <button class="nav-item" data-page="debts"><span class="nav-icon">▣</span><span>Dívidas e cartões</span></button>
+        <button class="nav-item" data-page="shopping"><span class="nav-icon">🛒</span><span>Listas de compras</span></button>
+        <button class="nav-item" data-page="goals"><span class="nav-icon">◎</span><span>Metas</span></button>
+        <button class="nav-item" data-page="home"><span class="nav-icon">⌂</span><span>Minha casa</span></button>
+        <button class="nav-item" data-page="reports"><span class="nav-icon">◔</span><span>Relatórios</span></button>
+        <button class="nav-item" data-page="reminders"><span class="nav-icon">♧</span><span>Lembretes</span></button>
+        <button class="nav-item" data-page="settings"><span class="nav-icon">⚙</span><span>Conta e dados</span></button>
+      </nav>
+      <div class="sidebar-note"><span class="dot"></span> Conexão privada ativada</div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div><p class="eyebrow" id="todayLabel">SEU LAR, MAIS ORGANIZADO</p><h1 id="pageTitle">Visão geral</h1></div>
+        <div class="top-actions"><span id="syncStatus" class="sync-status">Conectando…</span><button class="icon-button" id="exportBtn" title="Exportar backup" aria-label="Exportar backup">⇩</button><button class="primary" id="quickAdd">＋ Novo registro</button></div>
+      </header>
+      <div id="pageContent"></div>
+      <footer>Larino <span>•</span> Seus dados, suas escolhas.</footer>
+    </main>
   </div>
-</div>
-<div class="toast" id="toast"></div>
-<script src="app.js"></script>
+
+  <div class="modal-backdrop hidden" id="modalBackdrop">
+    <div class="modal">
+      <div class="modal-head"><div><p class="eyebrow">NOVO REGISTRO</p><h2 id="modalTitle">Adicionar conta</h2></div><button class="icon-button" id="closeModal" aria-label="Fechar">×</button></div>
+      <form id="recordForm">
+        <input type="hidden" id="recordId">
+        <div class="form-grid">
+          <label class="wide">Descrição<input id="description" required maxlength="120" placeholder="Ex.: Conta de luz"></label>
+          <label>Categoria<select id="category"><option>Moradia</option><option>Água</option><option>Energia</option><option>Internet</option><option>Mercado</option><option>Transporte</option><option>Saúde</option><option>Educação</option><option>Cartão</option><option>Empréstimo</option><option>Salário</option><option>Extra</option><option>Outros</option></select></label>
+          <label>Valor (R$)<input id="amount" required type="number" min="0.01" step="0.01" placeholder="0,00"></label>
+          <label>Vencimento / data<input id="date" type="date" required></label>
+          <label>Status<select id="status"><option value="pending">Pendente</option><option value="paid">Pago</option></select></label>
+          <label class="wide">Observações<input id="notes" maxlength="500" placeholder="Opcional"></label>
+        </div>
+        <div class="modal-actions"><button type="button" class="secondary" id="cancelModal">Cancelar</button><button class="primary" type="submit">Salvar registro</button></div>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal-backdrop hidden" id="simpleModalBackdrop"><div class="modal"><div class="modal-head"><div><p class="eyebrow" id="simpleEyebrow">NOVO ITEM</p><h2 id="simpleTitle">Adicionar</h2></div><button class="icon-button" id="closeSimpleModal" aria-label="Fechar">×</button></div><form id="simpleForm"><div id="simpleFields" class="form-grid"></div><div class="modal-actions"><button type="button" class="secondary" id="cancelSimpleModal">Cancelar</button><button class="primary" type="submit">Salvar</button></div></form></div></div>
+  <div class="toast" id="toast" role="status"></div>
+  <script type="module" src="app.js"></script>
 </body>
 </html>

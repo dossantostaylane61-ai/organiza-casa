@@ -1,38 +1,18 @@
-# Organiza Casa — primeira versão funcional
+# Larino Beta Privado
 
-Aplicativo web responsivo para organizar contas domésticas, renda, saldo estimado, empréstimos/cartões, relatórios e agenda de vencimentos.
+Aplicativo web responsivo para organizar contas, renda, dívidas, cartões, compras, metas e itens para a casa. A beta usa Firebase Authentication e Cloud Firestore para login e sincronização por usuário, após a configuração do projeto.
 
-## Como testar no computador
+**Antes de usar dados reais:** siga `LEIA-ME-PRIMEIRO.md`, configure `firebase-config.js` e publique `firestore.rules`. Sem isso, o app bloqueia o login e não permite salvar registros.
 
-1. Extraia o ZIP para uma pasta.
-2. Abra `index.html` no navegador. O aplicativo funciona sem instalar dependências.
-3. Os dados ficam salvos no armazenamento local do navegador (`localStorage`) deste dispositivo/navegador.
-4. Use o ícone de exportação no topo para salvar um backup JSON. Em Relatórios, use Exportar CSV para abrir os registros em planilhas.
+## Recursos nesta beta
+- Login por e-mail/senha e Google (após configuração), criação de conta e recuperação de senha.
+- Dados sincronizados na nuvem sob o UID da pessoa autenticada.
+- Painel com saldo atual/projetado, contas e resumo de gastos.
+- Contas, entradas, dívidas/cartões e marcação de pagamentos.
+- Listas de compras com quantidade e preço.
+- Metas de economia e checklist de itens para a casa.
+- Relatórios básicos, lembretes internos, backup JSON e exportação CSV.
+- Interface responsiva para celular e computador.
 
-## Como usar no Android
-
-Para instalar como aplicativo (PWA), publique estes arquivos em um endereço HTTPS. Uma opção simples é GitHub Pages:
-1. Crie uma conta no GitHub e um repositório público chamado `organiza-casa`.
-2. Envie os arquivos desta pasta para a raiz do repositório.
-3. Em Settings → Pages, ative a publicação pela branch `main` e pasta `/root`.
-4. Abra o endereço HTTPS gerado no Chrome do Android.
-5. No menu do Chrome, toque em “Instalar app” ou “Adicionar à tela inicial”.
-
-O service worker/PWA requer HTTP ou HTTPS; por isso, abrir o arquivo local é bom para testar, mas não ativa todos os recursos de instalação.
-
-## O que já funciona
-
-- Cadastro, edição, exclusão e marcação de contas como pagas.
-- Cadastro de empréstimos e cartões.
-- Registro de renda mensal e cálculo de saldo estimado.
-- Painel, gráficos simples e relatório por categoria.
-- Agenda interna de contas pendentes e atrasadas.
-- Exportação de backup JSON e CSV.
-- Layout responsivo para desktop e celular.
-
-## Importante sobre esta versão
-
-- Esta versão é pessoal e local: não tem login, sincronização entre dispositivos, banco de dados na nuvem nem notificações push automáticas.
-- Os dados não são enviados para um servidor. Se limpar os dados do navegador, pode perdê-los; faça backups regularmente.
-- O campo “renda mensal” é uma renda recorrente; registre as despesas e marque-as como pagas. O saldo mostrado é uma estimativa, não uma integração bancária.
-- Para um app Android nativo publicado na Play Store, uma próxima etapa seria empacotar a interface com Capacitor e testar a geração do APK/AAB.
+## Importante
+Esta é uma versão de testes. MFA, revogação remota de sessões, lixeira recuperável, recorrência automática e notificações push ainda exigem implementação/configuração adicional. Não use senhas bancárias ou dados completos de cartão.

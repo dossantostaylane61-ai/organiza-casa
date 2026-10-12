@@ -1,0 +1,17 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Cada pessoa só pode ler e alterar o documento de dados da própria conta.
+    match /users/{userId}/appData/{documentId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    // Perfil básico do próprio usuário (sem dados financeiros adicionais).
+    match /users/{userId}/profile/{documentId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+    }
+    // Tudo o que não estiver explicitamente autorizado fica bloqueado.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
