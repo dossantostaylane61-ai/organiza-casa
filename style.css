@@ -222,3 +222,49 @@ textarea:focus {
 .dark .legend .inc i {
   background: #776548;
 }
+
+/* Corrige o tema escuro do Larino */
+body[data-theme="dark"] {
+  --bg: #171717;
+  --surface: #20201f;
+  --ink: #f2eadc;
+  --muted: #aaa397;
+  --line: #3b3934;
+  --navy: #20201f;
+  --brand: #c5a46d;
+  --brand2: #302c24;
+  --green: #74bd8e;
+  --greenbg: #26372b;
+  --red: #f07878;
+  --shadow: 0 12px 32px rgba(0, 0, 0, .18);
+}
+
+body[data-theme="dark"] .sidebar,
+body[data-theme="dark"] .auth-card,
+body[data-theme="dark"] .stat,
+body[data-theme="dark"] .panel,
+body[data-theme="dark"] .report-card,
+body[data-theme="dark"] .goal-card,
+body[data-theme="dark"] .modal {
+  background: var(--surface);
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+body[data-theme="dark"] input,
+body[data-theme="dark"] select,
+body[data-theme="dark"] textarea {
+  background: #282725;
+  color: var(--ink);
+  border-color: var(--line);
+}
+
+body[data-theme="dark"] .nav-item {
+  color: var(--muted);
+}
+
+body[data-theme="dark"] .nav-item.active,
+body[data-theme="dark"] .nav-item:hover {
+  background: var(--brand2);
+  color: var(--ink);
+}
