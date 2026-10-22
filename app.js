@@ -18,7 +18,37 @@ function niceError(error){const code=error?.code||'';const map={'auth/invalid-cr
 function setAuthBusy(busy){['loginButton','signupButton','googleButton','resetButton'].forEach(id=>{const el=$('#'+id);if(el)el.disabled=busy})}
 function startFirebase(){if(!isFirebaseConfigured()){ $('#setupNotice').classList.remove('hidden');['loginButton','signupButton','googleButton','resetButton'].forEach(id=>$('#'+id).disabled=true);showAuthMessage('Configure firebase-config.js antes de criar uma conta ou inserir dados reais.');return}try{const app=initializeApp(firebaseConfig);auth=getAuth(app);db=getFirestore(app);onAuthStateChanged(auth,async currentUser=>{user=currentUser;if(currentUser){$('#authScreen').classList.add('hidden');$('#appShell').classList.remove('hidden');$('#syncStatus').textContent='Conectando…';await loadCloudData()}else{if(unsubscribeData){unsubscribeData();unsubscribeData=null}data=initialData();$('#appShell').classList.add('hidden');$('#authScreen').classList.remove('hidden')}})}catch(error){showAuthMessage('Erro ao iniciar a conexão: '+niceError(error))}}
 async function loadCloudData(){if(!user||!db)return;isLoadingData=true;const ref=doc(db,'users',user.uid,'appData','main');try{const snap=await getDoc(ref);if(snap.exists()){const cloud=snap.data();data={...initialData(),...cloud.data,settings:{...initialData().settings,...(cloud.data?.settings||{})}}}else{data=initialData();await setDoc(ref,{data,updatedAt:serverTimestamp(),schemaVersion:1})}render();$('#syncStatus').textContent='Sincronizado';if(unsubscribeData)unsubscribeData();unsubscribeData=onSnapshot(ref,snap2=>{if(!snap2.exists()||isLoadingData)return;const cloud=snap2.data();if(cloud.data){data={...initialData(),...cloud.data,settings:{...initialData().settings,...(cloud.data.settings||{})}};render();$('#syncStatus').textContent='Sincronizado'}} ,err=>{$('#syncStatus').textContent='Sem sincronização';toast('Erro de sincronização: '+niceError(err))});}catch(error){$('#syncStatus').textContent='Erro de conexão';toast('Não foi possível carregar os dados: '+niceError(error))}finally{isLoadingData=false}}
-async function save(){if(!user||!db){toast('Entre na sua conta para salvar.');return}clearTimeout(saveTimer);$('#syncStatus').textContent='Salvando…';const payload=JSON.parse(JSON.stringify(data));saveTimer=setTimeout(async()=>{try{await setDoc(doc(db,'users',user.uid,'appData','main'),{data:payload,updatedAt:serverTimestamp(),schemaVersion:1});$('#syncStatus').textContent='Sincronizado'}catch(error){$('#syncStatus').textContent='Falha ao salvar';toast('Não foi possível salvar na nuvem: '+niceError(error))}},300)}
+
+async function save() {
+  if (!user || !db) {
+    toast('Entre na sua conta para salvar.');
+    return;
+  }
+
+  clearTimeout(saveTimer);
+  $('#syncStatus').textContent = 'Salvando…';
+
+  const payload = JSON.parse(JSON.stringify(data));
+
+  saveTimer = setTimeout(async () => {
+    try {
+      await setDoc(
+        doc(db, 'users', user.uid, 'appData', 'main'),
+        {
+          data: payload,
+          updatedAt: serverTimestamp(),
+          schemaVersion: 1
+        }
+      );
+
+      $('#syncStatus').textContent = 'Sincronizado';
+    } catch (error) {
+      $('#syncStatus').textContent = 'Falha ao salvar';
+      toast('Não foi possível salvar na nuvem: ' + niceError(error));
+      console.error('Erro ao salvar no Firestore:', error);
+    }
+  }, 300);
+}
 function total(arr){return arr.reduce((s,r)=>s+Number(r.amount||0),0)}
 function bills(){return data.records.filter(r=>r.kind==='bill')}
 function debts(){return data.records.filter(r=>r.kind==='debt')}
