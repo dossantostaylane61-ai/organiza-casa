@@ -268,3 +268,55 @@ body[data-theme="dark"] .nav-item:hover {
   background: var(--brand2);
   color: var(--ink);
 }
+
+/* Tema escuro do Larino */
+body[data-theme="dark"] {
+  background: #171717;
+  color: #f2eadc;
+}
+
+body[data-theme="dark"] .app-shell,
+body[data-theme="dark"] main,
+body[data-theme="dark"] .main-content {
+  background: #171717;
+  color: #f2eadc;
+}
+
+body[data-theme="dark"] .sidebar,
+body[data-theme="dark"] .panel,
+body[data-theme="dark"] .stat,
+body[data-theme="dark"] .auth-card,
+body[data-theme="dark"] .report-card,
+body[data-theme="dark"] .goal-card,
+body[data-theme="dark"] .modal {
+  background: #20201f;
+  color: #f2eadc;
+  border-color: #3b3934;
+}
+
+body[data-theme="dark"] h1,
+body[data-theme="dark"] h2,
+body[data-theme="dark"] h3,
+body[data-theme="dark"] p,
+body[data-theme="dark"] label,
+body[data-theme="dark"] span {
+  color: inherit;
+}
+
+body[data-theme="dark"] input,
+body[data-theme="dark"] select,
+body[data-theme="dark"] textarea {
+  background: #282725;
+  color: #f2eadc;
+  border-color: #3b3934;
+}
+
+body[data-theme="dark"] .nav-item {
+  color: #aaa397;
+}
+
+body[data-theme="dark"] .nav-item.active,
+body[data-theme="dark"] .nav-item:hover {
+  background: #302c24;
+  color: #f2eadc;
+}
