@@ -1,10 +1,19 @@
+
 {
   "name": "Larino — sua casa, suas finanças",
   "short_name": "Larino",
   "description": "Organização da casa e das finanças em um só lugar.",
   "start_url": "./index.html",
+  "scope": "./",
   "display": "standalone",
   "background_color": "#f7f6f0",
   "theme_color": "#456b59",
-  "icons": []
+  "icons": [
+    {
+      "src": "./ca57f456-21f2-4384-bfad-b5431fa3474f.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
 }
